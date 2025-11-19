@@ -40,11 +40,48 @@ Este proyecto es una plataforma web desarrollada en **Django** que implementa un
 
 ---
 
-## ⚙️ Instalación en Local
+Para una persona que **quiere usar tu proyecto desde VS Code**, estos son **los pasos exactos y mínimos** que debe hacer **antes de poder ejecutarlo**. Esto lo puedes poner también en tu README si quieres.
 
-> Requisitos: **Python 3.10+**, **Git**
+---
 
-### **1. Clonar el Repositorio**
+# ✅ ¿Qué necesita descargar/instalar primero?
+
+## 1️⃣ **Instalar VS Code**
+
+Descargar desde la página oficial:
+[https://code.visualstudio.com/](https://code.visualstudio.com/)
+
+---
+
+## 2️⃣ **Instalar Python 3.10 o superior**
+
+El proyecto usa Python, así que es indispensable instalarlo:
+[https://www.python.org/downloads/](https://www.python.org/downloads/)
+
+> Asegúrate de marcar **“Add Python to PATH”** durante la instalación (muy importante).
+
+---
+
+## 3️⃣ **Instalar Git**
+
+Es necesario para descargar el repositorio desde GitHub.
+[https://git-scm.com/downloads](https://git-scm.com/downloads)
+
+---
+
+## 4️⃣ **Clonar el proyecto dentro de VS Code**
+
+En VS Code:
+
+**View → Command Palette → Git: Clone**
+
+Pegar tu repo:
+
+```
+https://github.com/LilianaVo/Sistema-Votacion-Seguro-CryptoVoting.git
+```
+
+O con terminal integrada:
 
 ```bash
 git clone https://github.com/LilianaVo/Sistema-Votacion-Seguro-CryptoVoting.git
@@ -53,21 +90,33 @@ cd Sistema-Votacion-Seguro-CryptoVoting
 
 ---
 
-### **2. Configurar Entorno Virtual**
+## 5️⃣ **Crear un entorno virtual (venv)**
+
+Necesario para instalar las librerías sin afectar el sistema.
 
 ```bash
-# Windows
 python -m venv venv
-.\venv\Scripts\activate
+```
 
-# Mac/Linux
-python3 -m venv venv
+Activar:
+
+### Windows:
+
+```bash
+.\venv\Scripts\activate
+```
+
+### Mac / Linux:
+
+```bash
 source venv/bin/activate
 ```
 
 ---
 
-### **3. Instalar Dependencias**
+## 6️⃣ **Instalar las dependencias**
+
+Estas vienen en `requirements.txt`:
 
 ```bash
 pip install -r requirements.txt
@@ -75,19 +124,18 @@ pip install -r requirements.txt
 
 ---
 
-### **4. Crear Archivo .env**
+## 7️⃣ **Crear archivo `.env`**
 
-Dentro del directorio raíz (donde está `manage.py`):
+En el mismo nivel que `manage.py` crear:
 
 ```ini
 DEBUG=True
-SECRET_KEY=pon_aqui_una_clave_segura_y_larga
-# DATABASE_URL se puede omitir en local (usa SQLite por defecto)
+SECRET_KEY=escribe_una_clave_segura
 ```
 
 ---
 
-### **5. Inicializar Base de Datos**
+## 8️⃣ **Inicializar la base de datos**
 
 ```bash
 python manage.py migrate
@@ -95,7 +143,7 @@ python manage.py migrate
 
 ---
 
-### **6. Crear Usuario Administrador**
+## 9️⃣ **Crear un superusuario (admin)**
 
 ```bash
 python manage.py createsuperuser
@@ -103,14 +151,14 @@ python manage.py createsuperuser
 
 ---
 
-### **7. Ejecutar el Servidor**
+## 🔟 Ejecutar el servidor
 
 ```bash
 python manage.py runserver
 ```
 
-El sistema estará disponible en:
-👉 **[http://127.0.0.1:8000/](http://127.0.0.1:8000/)**
+Acceder en:
+👉 [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
 ---
 
