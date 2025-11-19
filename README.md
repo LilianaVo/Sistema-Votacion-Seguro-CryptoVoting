@@ -132,37 +132,43 @@ gunicorn voting_project.wsgi:application
 
 # 🔄 Mantenimiento: Reinicio Rápido del Sistema
 
-Si necesitas reiniciar todo el sistema para una demostración (eliminar usuarios de prueba, limpiar votos, permitir que el Admin vuelva a votar):
+> **Advertencia:** haz un respaldo de la base de datos antes de ejecutar estos comandos si quieres conservar datos reales. Estos pasos **eliminan usuarios y votos** (excepto el superusuario).
 
-### **1. Abrir la Shell de Django**
+---
+
+### 1. Abrir la consola de Django (en la terminal de VS Code)
 
 ```bash
 python manage.py shell
 ```
 
-### **2. Ejecutar los comandos de limpieza**
+---
 
-#### A) Importar modelos
+### 2. Ejecutar los comandos de limpieza (pega uno por uno)
+
+**A) Importar modelos**
 
 ```python
 from django.contrib.auth.models import User
 from voting.models import Vote, VoterProfile
 ```
 
-#### B) Eliminar usuarios (excepto el Admin)
+**B) Eliminar todos los usuarios que no sean superusuario**
 
 ```python
 User.objects.filter(is_superuser=False).delete()
 ```
 
-#### C) Borrar votos y desbloquear al Admin
+**C) Borrar todos los votos y reiniciar el estado de voto de los perfiles**
 
 ```python
 Vote.objects.all().delete()
 VoterProfile.objects.update(has_voted=False)
 ```
 
-### **3. Salir**
+---
+
+### 3. Salir de la consola
 
 ```python
 exit()
