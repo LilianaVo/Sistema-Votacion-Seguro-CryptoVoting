@@ -15,33 +15,80 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f3f6; /* Gris muy claro para el fondo */
+            background-color: #f0f3f6;
         }
         .navbar {
-            background-color: #1a2b41 !important; /* Azul medianoche (Institucional) */
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            background-color: #1a2b41 !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra un poco más marcada */
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
         }
+
+        /* --- ESTILOS NUEVOS PARA LA MARCA --- */
+        .brand-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .brand-icon {
+            font-size: 2.2rem;
+            color: #fbbf24; /* Dorado Seguridad */
+            filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.2));
+        }
+        .brand-divider {
+            width: 1px;
+            height: 35px;
+            background-color: rgba(255, 255, 255, 0.15);
+            margin-right: 5px;
+        }
+        .brand-text-col {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            line-height: 1.1;
+        }
+        .brand-super {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #cbd5e1;
+            font-weight: 400;
+        }
+        .brand-main {
+            font-size: 1.2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+        .navbar-brand:hover .brand-icon {
+            transform: scale(1.05);
+            transition: transform 0.3s ease;
+        }
+        /* ------------------------------------- */
+
         .card {
-            border: none; /* Eliminar bordes de tarjeta */
-            border-radius: 0.75rem; /* Bordes ligeramente redondeados */
+            border: none;
+            border-radius: 0.75rem;
         }
         .card-header-voto {
-            background-color: #1a2b41; /* Azul medianoche */
+            background-color: #1a2b41;
             color: white;
             border-bottom: none;
             border-radius: 0.75rem 0.75rem 0 0;
         }
         .btn-primary {
-            background-color: #2979ff; /* Azul vibrante para CTA */
+            background-color: #2979ff;
             border-color: #2979ff;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
         }
         .btn-primary:hover {
             background-color: #1c52d4;
             border-color: #1c52d4;
+            box-shadow: 0 0 10px rgba(41, 121, 255, 0.4);
         }
         .section-btn {
-            background-color: #e3f2fd; /* Fondo claro */
+            background-color: #e3f2fd;
             color: #1a2b41;
             border: 1px solid #bbdefb;
             border-radius: 0.5rem;
@@ -55,34 +102,40 @@
 </head>
 <body>
     
-    <nav class="navbar navbar-expand-lg navbar-dark shadow-lg">
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container">
-            <a class="navbar-brand fw-bold fs-5" href="{% url 'voting:vote_submit' %}">
-                <i class="bi bi-lock-fill me-2"></i> Sistema Criptográfico Nacional
+            <a class="navbar-brand p-0" href="{% url 'home' %}">
+                <div class="brand-container">
+                    <i class="bi bi-shield-lock-fill brand-icon"></i>
+                    
+                    <div class="brand-divider d-none d-sm-block"></div>
+                    
+                    <div class="brand-text-col">
+                        <span class="brand-super">Sistema Criptográfico</span>
+                        <span class="brand-main">Nacional</span>
+                    </div>
+                </div>
             </a>
-            
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    
-                    {% if user.is_authenticated %}    
+                <ul class="navbar-nav ms-auto align-items-center"> {% if user.is_authenticated %}    
                         <li class="nav-item">
                             <a class="nav-link fw-semibold text-info" href="{% url 'voting:guide' %}">
-                                <i class="bi bi-info-circle-fill me-1"></i> Guía de Voto
+                                <i class="bi bi-info-circle-fill me-1"></i> Guía
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link fw-semibold" href="{% url 'voting:generate_keys' %}">
-                                <i class="bi bi-key-fill me-1"></i> Generar Llave
+                                <i class="bi bi-key-fill me-1"></i> Llaves
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link fw-semibold" href="{% url 'voting:check_key' %}">
-                                <i class="bi bi-shield-check me-1"></i> Validar Llave
+                                <i class="bi bi-shield-check me-1"></i> Validar
                             </a>
                         </li>
                         
@@ -94,12 +147,12 @@
 
                         <li class="nav-item">
                             <a class="nav-link fw-semibold" href="{% url 'voting:results_dashboard' %}">
-                                <i class="bi bi-bar-chart-fill me-1"></i> Tablero Público
+                                <i class="bi bi-bar-chart-fill me-1"></i> Resultados
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link fw-semibold" href="{% url 'voting:verification_page' %}">
-                                <i class="bi bi-patch-check-fill me-1"></i> Verificar Mi Voto
+                                <i class="bi bi-patch-check-fill me-1"></i> Verificar
                             </a>
                         </li>
 
@@ -111,27 +164,29 @@
                             </li>
                         {% endif %}
 
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle fw-semibold" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Mi Perfil
+                        <li class="nav-item dropdown ms-lg-2">
+                            <a class="nav-link dropdown-toggle fw-semibold btn btn-outline-light border-0" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white !important;">
+                                <i class="bi bi-person-circle me-1"></i> {{ user.username }}
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                
-                                <li><span class="dropdown-item-text small text-muted">Usuario: {{ user.username }}</span></li>
+                            <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="navbarDropdown">
+                                <li><span class="dropdown-item-text small text-muted">Perfil de Usuario</span></li>
                                 <li><hr class="dropdown-divider"></li>
-                                
                                 <li>
                                     <form method="post" action="{% url 'logout' %}" class="d-inline">
                                         {% csrf_token %}
-                                        <button type="submit" class="dropdown-item">Cerrar Sesión</button>
+                                        <button type="submit" class="dropdown-item text-danger">
+                                            <i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión
+                                        </button>
                                     </form>
                                 </li>
                             </ul>
                         </li>
                         
                     {% else %}
-                        <li class="nav-item">
-                            <a class="btn btn-sm btn-primary fw-bold px-3 rounded-pill" href="{% url 'login' %}">ACCEDER</a>
+                        <li class="nav-item ms-3">
+                            <a class="btn btn-primary fw-bold px-4 rounded-pill shadow-sm" href="{% url 'login' %}">
+                                ACCEDER <i class="bi bi-arrow-right-short"></i>
+                            </a>
                         </li>
                     {% endif %}
                 </ul>
@@ -145,7 +200,12 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm" role="alert">
+                    {% if message.tags == 'success' %}
+                        <i class="bi bi-check-circle-fill me-2"></i>
+                    {% elif message.tags == 'error' %}
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    {% endif %}
                     {{ message }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
@@ -163,5 +223,3 @@
     {% block extra_js %}{% endblock extra_js %}
 </body>
 </html>
-
-

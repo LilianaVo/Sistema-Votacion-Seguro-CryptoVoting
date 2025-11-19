@@ -9,10 +9,14 @@ class CustomRegisterForm(forms.ModelForm):
         widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'nombre@ejemplo.com'}),
         label="Correo Electrónico"
     )
+    # --- AQUÍ ESTÁ EL CAMBIO ---
     password = forms.CharField(
+        min_length=8,  # <--- ESTO FALTABA: Fuerza el mínimo de 8 caracteres
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '********'}),
-        label="Contraseña"
+        label="Contraseña",
+        error_messages={'min_length': 'La contraseña debe tener al menos 8 caracteres.'}
     )
+    # ---------------------------
     confirm_password = forms.CharField(
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '********'}),
         label="Confirmar Contraseña"
@@ -25,7 +29,6 @@ class CustomRegisterForm(forms.ModelForm):
     def clean_email(self):
         """
         Verifica que el correo no exista ya en la base de datos.
-        Esto evita el error 'IntegrityError' (Pantalla Amarilla).
         """
         email = self.cleaned_data.get('email')
         if email and User.objects.filter(username=email).exists():
@@ -49,7 +52,7 @@ class CustomRegisterForm(forms.ModelForm):
         """
         user = super().save(commit=False)
         user.email = self.cleaned_data['email']
-        user.username = self.cleaned_data['email']  # Usamos el email como username
+        user.username = self.cleaned_data['email']
         user.set_password(self.cleaned_data["password"])
         
         if commit:

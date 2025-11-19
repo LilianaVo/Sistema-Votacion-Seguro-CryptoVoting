@@ -26,7 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # 2. RUTAS DE AUTENTICACIÓN PERSONALIZADAS
-    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('login/', voting_views.login_view, name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='logged_out.html'), name='logout'),
     
     # NUEVA RUTA DE REGISTRO

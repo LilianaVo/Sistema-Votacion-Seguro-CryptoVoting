@@ -124,7 +124,7 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Redirección
-LOGIN_REDIRECT_URL = '/voting/vote/'
+LOGIN_REDIRECT_URL = '/voting/guia/'
 LOGIN_URL = '/login/'
 
 

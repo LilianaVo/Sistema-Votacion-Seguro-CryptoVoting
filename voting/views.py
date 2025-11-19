@@ -46,9 +46,10 @@ def get_legible_label(key, value):
 
 # --- VISTA DE PORTADA (index_view) ---
 def index_view(request):
-    """Renderiza la página de portada si el usuario no está autenticado."""
+    """Renderiza la portada o redirige a la guía."""
     if request.user.is_authenticated:
-        return redirect('voting:vote_submit')
+        # CAMBIO: Si entra al inicio y ya es usuario, va a la guía
+        return redirect('voting:guide') 
         
     context = {
         'github_url': getattr(settings, 'GITHUB_REPO_URL', '#'), 
@@ -73,30 +74,33 @@ def credits_view(request):
 
 
 # --- NUEVA VISTA DE LOGIN (Soluciona el fallo de seguridad) ---
+# En voting/views.py
+
 def login_view(request):
     """
-    Maneja el inicio de sesión verificando credenciales reales en la BD.
-    Evita que usuarios inexistentes como 'fulanito1' entren.
+    Maneja el inicio de sesión y fuerza la redirección a la GUÍA.
     """
+    # 1. Si ya está logueado, mándalo a la guía (evita bucles)
     if request.user.is_authenticated:
-        return redirect('voting:vote_submit')
+        return redirect('voting:guide') 
 
     if request.method == 'POST':
         form = CustomLoginForm(request, data=request.POST)
         if form.is_valid():
-            # Esta función verifica usuario Y contraseña
             user = form.get_user() 
             login(request, user)
             messages.success(request, f"Bienvenido de nuevo.")
-            return redirect('voting:vote_submit')
+            
+            # --- CAMBIO CRÍTICO ---
+            # NO uses 'next'. Forzamos la redirección a 'voting:guide'
+            # Esto evita que si intentaste entrar a /vote/, te lleve allí.
+            return redirect('voting:guide') 
+            
         else:
-            # Si las credenciales fallan, form.errors tendrá el detalle, 
-            # pero mandamos un mensaje general también.
             messages.error(request, "Correo electrónico o contraseña incorrectos.")
     else:
         form = CustomLoginForm()
 
-    # Renderiza el template que está en templates/login.html
     return render(request, 'login.html', {'form': form})
 
 
