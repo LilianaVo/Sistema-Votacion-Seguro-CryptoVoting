@@ -181,8 +181,8 @@ exit()
 * **Roja Mares Luis Iván**
 * **Lee Obando Ileana Verónica**
 
-**Materia:** Criptografía
-**Profesor:** Dr. Alfonso Francisco De Abiega L Eglisse
-**Grupo:** 02
-**Facultad de Ingeniería - UNAM**
+* **Materia:** Criptografía
+* **Profesor:** Dr. Alfonso Francisco De Abiega L Eglisse
+* **Grupo:** 02
+* **Facultad de Ingeniería - UNAM**
 
