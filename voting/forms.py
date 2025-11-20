@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import ValidationError
+import re # Importamos el módulo de expresiones regulares
 
 # ---------------------------------------------------------
 # 1. FORMULARIO DE REGISTRO (CustomRegisterForm)
@@ -18,7 +19,7 @@ class CustomRegisterForm(forms.ModelForm):
     
     # --- CONFIGURACIÓN DE CONTRASEÑA ---
     password = forms.CharField(
-        min_length=8,  # <--- REGLA DE SEGURIDAD: Longitud mínima obligatoria
+        min_length=8, # <--- REGLA DE SEGURIDAD: Longitud mínima obligatoria
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '********'}),
         label="Contraseña",
         error_messages={'min_length': 'La contraseña debe tener al menos 8 caracteres.'}
@@ -45,6 +46,34 @@ class CustomRegisterForm(forms.ModelForm):
             raise ValidationError("Este correo electrónico ya está registrado. Por favor inicia sesión.")
         return email
 
+    def clean_password(self):
+        """
+        NUEVA VALIDACIÓN DE ROBUSTEZ:
+        Fuerza la inclusión de mayúsculas, minúsculas, números y símbolos,
+        además de la longitud mínima ya definida en el campo.
+        """
+        password = self.cleaned_data.get('password')
+
+        # 1. Verificar si hay al menos una letra mayúscula
+        if not re.search(r'[A-Z]', password):
+            raise ValidationError("La contraseña debe contener al menos una letra mayúscula.")
+        
+        # 2. Verificar si hay al menos una letra minúscula
+        if not re.search(r'[a-z]', password):
+            raise ValidationError("La contraseña debe contener al menos una letra minúscula.")
+            
+        # 3. Verificar si hay al menos un número
+        if not re.search(r'[0-9]', password):
+            raise ValidationError("La contraseña debe contener al menos un número.")
+            
+        # 4. Verificar si hay al menos un símbolo (cualquier caracter que NO sea letra o número)
+        # ^ indica "no", [A-Za-z0-9] indica "letras o números". 
+        # Por lo tanto, [^A-Za-z0-9] busca cualquier cosa que no sea eso.
+        if not re.search(r'[^A-Za-z0-9]', password):
+            raise ValidationError("La contraseña debe contener al menos un símbolo (ej. !, #, @, $).")
+            
+        return password
+    
     def clean(self):
         """
         VALIDACIÓN GENERAL:
@@ -107,7 +136,7 @@ class CustomLoginForm(AuthenticationForm):
             
             if self.user_cache is None:
                 raise forms.ValidationError(
-                    "Correo electrónico o contraseña incorrectos."
+                    "Credenciales de acceso no válidas. Verifica tu correo y contraseña."
                 )
             elif not self.user_cache.is_active:
                 raise forms.ValidationError("Esta cuenta está inactiva.")
